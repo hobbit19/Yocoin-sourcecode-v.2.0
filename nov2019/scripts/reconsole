@@ -1,0 +1,43 @@
+#!/bin/bash -vuex
+reset
+
+export NOV2019_FORCE_ADDR=1;
+export NOV2019_DISABLE_NODELIST=1;
+export NOV2019_RETESTNET=1;
+export NOV2019_AT_HEIGHT_NOT_BEFORE=100;
+export NOV2019_AT_HEIGHT_NOT_AFTER=10000;
+export NOV2019_DISABLE_NODELIST=1;
+
+id=$(hostname | grep -oP "^\w*");
+dd=~/.yocoin-test-data-console
+yoc=/opt/yocoin-2.0.1119-debug
+yh="--yochash.dagdir $dd/yhd --yochash.cachedir $dd/yhc";
+ip=$(getent hosts $(hostname) | cut -d' ' -f1);
+
+#cfg=test.cfg;
+port=19403;
+rport=18547;
+
+[ ! -d $dd ] && $yoc --datadir $dd $yh init genesis.dev.json && (cp UTC-* /opt/UTC-* $dd/keystore/ || true );
+
+function cfg {
+	yoc --datadir $dd $yh dumpconfig | sed '1,2d' > $cfg;
+	sed -i "s/ListenAddr = \"\d*.*/ListenAddr = \"$ip:$port\"/" $cfg;
+}
+#cfg
+
+cp UTC-* $dd/keystore/ || true;
+$yoc --datadir $dd $yh \
+	--port $port \
+        --identity $id --extradata Yocoin2_TestNov19_UpgradeStartRC_$id \
+        --rpccorsdomain '*' --rpc  --rpcport $rport --rpcaddr $ip --rpcvhosts '*' --rpcapi yoc,web3,net,personal,eth,miner \
+        --syncmode fast \
+	--nat none \
+	--port $port \
+        attach http://$ip:$rport \
+	$*;
+
+#	--config $cfg \
+#	--nat extip:$ip \
+#	--viplog --debug --vmdebug \
+

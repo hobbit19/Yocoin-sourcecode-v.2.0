@@ -1,0 +1,5 @@
+# debian
+/.debhelper/
+/yocoin-unstable/
+/yocoin-bundle-unstable/
+/*.log

@@ -1,0 +1,5 @@
+yocoin-bundle-unstable (1.8.14+trusty) trusty; urgency=low
+
+  * git build of e133ee226e3bc4287e1dc5bd26d50afd987ba73f
+
+ -- YoCoin Builds <yocoin@yocoin.org>  Mon, 09 Jul 2018 17:33:44 +0300

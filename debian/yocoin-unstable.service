@@ -1,0 +1,17 @@
+[Unit]
+Description=yocoin node
+Documentation=man:yocoin
+After=network-online.target
+Before=
+Requires=network-online.target
+
+[Service]
+Type=simple
+User=yocoin
+RemainAfterExit=yes
+ExecStart=/usr/bin/yocoin --syncmode=fast -discover --datadir "/var/lib/yocoin-unstable/data/" --yochash.dagdir "/var/lib/yocoin-unstable/dag"  --rpc --ipcpath /var/lib/yocoin-unstable/yocoin.ipc --rpccorsdomain "http://localhost:3000"  --wsorigins "http://localhost:3000"  --ws --wsport 8546
+KillSignal=SIGKILL
+SendSIGKILL=yes
+
+[Install]
+WantedBy=multi-user.target

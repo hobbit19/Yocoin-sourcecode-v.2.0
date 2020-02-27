@@ -1,0 +1,43 @@
+#!/bin/bash -xe
+reset
+
+export NOV2019_FORCE_ADDR=1;
+export NOV2019_ADDR1810=1;
+export NOV2019_ADDR1810_ONESHOT=1;
+
+
+id=$(hostname | grep -oP "^\w*");
+
+id=$(hostname | grep -oP "^\w*");
+dd=~/.yocoin
+yoc=/opt/yocoin-test
+yh=""
+ip=$(getent hosts $(hostname) | cut -d' ' -f1);
+
+port=30303;
+rport=8545;
+
+offtopic=0x384c419e234d173c761d9752f6c1b6c48fe8c942;
+super=fde53fa41cdfee341ff701a6402ca59d0c468f3d;
+
+function cfg {
+	yoc --datadir $dd $yh dumpconfig | sed '1,2d' > $cfg;
+	sed -i "s/ListenAddr = \"\d*.*/ListenAddr = \"0.0.0.0:$port\"/" $cfg;
+}
+#cfg
+
+$yoc  --datadir $dd $yh help 1>/dev/null 2>/dev/null
+cp UTC-* $dd/keystore/ || true;
+$yoc --datadir $dd $yh \
+	--viplog --debug --vmdebug \
+        --identity $id --extradata Yocoin2_Nov2k19UpgradeMainBegin$id \
+	--port $port \
+        --rpccorsdomain '*' --rpc --rpcport $rport --rpcaddr $ip --rpcvhosts '*' --rpcapi yoc,web3,net,personal,eth,miner \
+        --syncmode full \
+	--nat none \
+	--port $port \
+	--yocbase $super \
+        console $*; # --mine можно передать через аргумент
+
+# --netrestrict
+

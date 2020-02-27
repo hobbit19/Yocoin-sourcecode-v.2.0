@@ -1,0 +1,4 @@
+yocoin-bundle-unstable_1.8.14+trusty_amd64.buildinfo science extra
+yocoin-bundle-unstable_1.8.14+trusty_amd64.deb science extra
+yocoin-unstable-dbgsym_1.8.14+trusty_amd64.deb debug optional
+yocoin-unstable_1.8.14+trusty_amd64.deb science extra

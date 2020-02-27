@@ -1,0 +1,23 @@
+Source: yocoin-bundle-unstable
+Section: science
+Priority: extra
+Maintainer: YoCoin Builds <yocoin@yocoin.org>
+Build-Depends: debhelper (>= 8.0.0), golang-1.10, dh-systemd
+Standards-Version: 3.9.5
+Homepage: https://yocoin.org
+Vcs-Git: git://github.com/Yocoin15/Yocoin_Sources.git
+Vcs-Browser: https://github.com/Yocoin15/Yocoin_Sources
+
+Package: yocoin-bundle-unstable
+Architecture: any
+Depends: ${misc:Depends}, yocoin-unstable
+Description: Meta-package to install yocoin and other tools
+ Meta-package to install yocoin and other tools
+
+Package: yocoin-unstable
+Conflicts: yocoin, yocoin
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Built-Using: ${misc:Built-Using}
+Description: YoCoin CLI client.
+ YoCoin CLI client.

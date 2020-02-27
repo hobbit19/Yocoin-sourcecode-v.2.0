@@ -1,0 +1,8 @@
+# Build files
+*/yocoin
+*/yocoin.exe
+*.zip
+*.tar.gz
+win*/*
+# Build collection history
+modified/*

@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+override_dh_auto_build:
+	/usr/bin/go run build/ci.go install -git-commit=$(git rev-parse --short HEAD) -git-branch=$(git rev-parse --abbrev-ref HEAD) -git-tag= -buildnum= -pull-request=false
+override_dh_auto_test:
+
+override_dh_installinit:
+	dh_systemd_enable -pyocoin-unstable --name=yocoin-unstable yocoin-unstable.service
+	dh_installinit -pyocoin-unstable --no-start --noscripts
+	dh_systemd_start -pyocoin-unstable --no-restart-on-upgrade
+
+override_dh_systemd_start:
+	echo "Not running dh_systemd_start"
+
+override_dh_installdocs:
+	echo "No docs needed"
+
+%:
+	dh $@ --with systemd

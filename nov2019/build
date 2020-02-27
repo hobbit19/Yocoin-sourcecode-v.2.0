@@ -1,0 +1,18 @@
+#!/bin/bash -xe
+reset
+
+VER=2.0.1121;
+nodes=(yoctest1 yoctest2 yoctest3);
+
+find . -name "*.go"|grep -v 'vendor/'|xargs gofmt -w;
+reset;
+go build  -ldflags="-s -w" -o yocoin-$VER-clean github.com/Yocoin15/Yocoin_Sources/cmd/yocoin;
+go build -o yocoin-$VER-debug github.com/Yocoin15/Yocoin_Sources/cmd/yocoin;
+
+[ "x$1" != "xupload" ] && exit 0;
+
+for node in "${nodes[@]}"; do
+	scp ./yocoin-$VER-debug $node:/opt/yocoin-test;
+	scp nov2019/scripts/* $node:/opt/;
+	scp nov2019/genesis.dev.json $node:;
+done;

@@ -1,0 +1,33 @@
+#!/bin/sh -e
+
+# checking yocoin account
+
+uid=`getent passwd yocoin | cut -d ":" -f 3`
+home=`getent passwd yocoin | cut -d ":" -f 6`
+
+# if there is the uid the account is there and we can do
+# the sanit(ar)y checks otherwise we can safely create it.
+
+if [ "$uid" ]; then
+        if [ "$home" = "/var/lib/yocoin-unstable" ]; then
+                :
+                echo "yocoin homedir check: ok"
+        else
+                echo "ERROR: yocoin account has an unexpected home directory!"
+                echo "It should be '/var/lib/yocoin-unstable', but it is '$home'."
+                echo "Removing the yocoin user might fix this, but the question"
+                echo "remains how you got into this mess to begin with."
+                exit 1
+        fi
+else
+	mkdir -p /var/lib/yocoin-unstable
+        adduser --quiet \
+                --system \
+                --disabled-password \
+                --home /var/lib/yocoin-unstable \
+                --no-create-home \
+                --shell /bin/false \
+                --group \
+                yocoin
+	chown -R yocoin:yocoin /var/lib/yocoin-unstable
+fi
