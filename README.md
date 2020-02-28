@@ -18,7 +18,7 @@ Then:
 
     mkdir -p ~/go/src/github.com/Yocoin15/
     rm -rf ~/go/src/github.com/Yocoin15/Yocoin_Sources
-    git clone github.com:Kubemake/yocoin.git -b develop ~/go/src/github.com/Yocoin15/Yocoin_Sources
+    git clone git@github.com:Yocoin15/Yocoin-sourcecode-v.2.0.git 
     export GOPATH=~/go
     cd ~/go/src/github.com/Yocoin15/Yocoin_Sources
     go build -o ./yocoin cmd/yocoin/*.go
